@@ -1,12 +1,10 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from './slices/userSlice';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persistReducer, persistStore } from "redux-persist";
-
-
+import {persistReducer, persistStore} from 'redux-persist';
+import episodeSlice from './slices/EpisodeSlice.ts';
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  episode: episodeSlice,
 });
 
 const configuration = {

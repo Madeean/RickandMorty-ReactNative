@@ -5,30 +5,12 @@
  * @format
  */
 
-import React, {PropsWithoutRef} from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Navigation from './src/presentation/navigation/Navigation.tsx';
-import { Provider } from "react-redux";
-import store, { persistor } from "./src/redux/Store.ts";
-import { PersistGate } from "redux-persist/integration/react";
+import {Provider} from 'react-redux';
+import store, {persistor} from './src/redux/Store.ts';
+import {PersistGate} from 'redux-persist/integration/react';
 
 // type SectionProps = PropsWithoutRef<{
 //   title: string;
