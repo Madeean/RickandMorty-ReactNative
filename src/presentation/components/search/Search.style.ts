@@ -11,6 +11,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     paddingHorizontal: 16,
+    height: 50,
   },
   searchEpisodeTextInput: {
     flex: 1,
