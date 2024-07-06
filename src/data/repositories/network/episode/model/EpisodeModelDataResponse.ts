@@ -1,3 +1,5 @@
+import {EpisodeDetailModelDomain} from '../../../../../domain/episode/model/EpisodeModelDomain';
+
 interface EpisodeDetailModelDataResponse {
   id?: number;
   name?: string;
@@ -9,15 +11,6 @@ interface EpisodeDetailModelDataResponse {
 
 interface EpisodeModelDataResponse {
   results: EpisodeDetailModelDataResponse[] | null;
-}
-
-interface EpisodeDetailModelDomain {
-  id: number;
-  name: string;
-  airDate: string;
-  episode: string;
-  created: string;
-  characterList: string[];
 }
 
 namespace EpisodeTransformUtils {
@@ -59,7 +52,6 @@ namespace EpisodeErrorTransformUtils {
 export type {
   EpisodeDetailModelDataResponse,
   EpisodeModelDataResponse,
-  EpisodeDetailModelDomain,
   EpisodeErrorModelDataResponse,
 };
 

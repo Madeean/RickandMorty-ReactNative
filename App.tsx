@@ -11,6 +11,7 @@ import Navigation from './src/presentation/navigation/Navigation.tsx';
 import {Provider} from 'react-redux';
 import store, {persistor} from './src/redux/Store.ts';
 import {PersistGate} from 'redux-persist/integration/react';
+import { PaperProvider } from "react-native-paper";
 
 // type SectionProps = PropsWithoutRef<{
 //   title: string;
@@ -37,9 +38,11 @@ function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <NavigationContainer>
-          <Navigation />
-        </NavigationContainer>
+        <PaperProvider>
+          <NavigationContainer>
+            <Navigation />
+          </NavigationContainer>
+        </PaperProvider>
       </PersistGate>
     </Provider>
   );
