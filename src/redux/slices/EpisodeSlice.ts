@@ -12,11 +12,6 @@ interface EpisodeState {
   hasMore: boolean; // Tambahkan flag hasMore
 }
 
-type getEpisodeParameters = {
-  page: number;
-  episode: string;
-};
-
 const initialState: EpisodeState = {
   data: [],
   loading: false,
@@ -67,6 +62,5 @@ const episodeSlice = createSlice({
       });
   },
 });
-
 
 export default episodeSlice.reducer;

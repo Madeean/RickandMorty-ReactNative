@@ -8,8 +8,15 @@ import {RootState} from './../../redux/Store';
 import {getEpisode} from './../../redux/slices/EpisodeSlice';
 import {style} from './EpisodeScreen.style';
 import {useAppDispatch} from './../../redux/hooks';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Routes} from '../navigation/Routes.ts';
+import {EpisodeDetailModelDomain} from '../../domain/episode/model/EpisodeModelDomain.ts';
 
-function EpisodeScreen() {
+type EpisodeScreenProps = {
+  navigation: StackNavigationProp<any, any>;
+};
+
+function EpisodeScreen({navigation}: EpisodeScreenProps) {
   const [searchText, setSearchText] = useState('');
 
   const dispatch = useAppDispatch();
@@ -35,6 +42,10 @@ function EpisodeScreen() {
     setSearchText(text);
   };
 
+  const handleNavigateToDetail = (dataDetail: EpisodeDetailModelDomain) => {
+    navigation.navigate(Routes.EpisodeDetailScreen, {dataDetail});
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <Header title={'Episode'} />
@@ -49,7 +60,12 @@ function EpisodeScreen() {
         data={data}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        renderItem={({item}) => <EpisodeItemView data={item} />}
+        renderItem={({item}) => (
+          <EpisodeItemView
+            data={item}
+            onNavigateToDetail={handleNavigateToDetail}
+          />
+        )}
         keyExtractor={(item, index) => index.toString()}
         ListFooterComponent={
           status === 'loading' ? (

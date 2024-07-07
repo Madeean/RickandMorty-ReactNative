@@ -7,10 +7,10 @@ import {
   faPerson,
   faLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
-import EpisodeScreen from '../episode/EpisodeScreen';
-import CharacterScreen from '../character/CharacterScreen';
-import LocationScreen from '../location/LocationScreen';
 import {COLORS} from '../../assets/theme/Theme.ts';
+import EpisodeStackNavigator from '../navigation/EpisodeStackNavigator';
+import CharacterScreen from '../character/CharacterScreen.tsx';
+import LocationScreen from '../location/LocationScreen.tsx';
 
 const HomeScreen = () => {
   const [index, setIndex] = React.useState(0);
@@ -48,7 +48,7 @@ const HomeScreen = () => {
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    Episode: EpisodeScreen,
+    Episode: EpisodeStackNavigator,
     Character: CharacterScreen,
     Location: LocationScreen,
   });
