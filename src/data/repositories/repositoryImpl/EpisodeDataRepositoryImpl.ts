@@ -4,25 +4,27 @@ import {
   EpisodeModelDataResponse,
   EpisodeTransformUtils,
 } from '../network/episode/model/EpisodeModelDataResponse.ts';
+import axios from 'axios';
 
 export class EpisodeDataRepositoryImpl implements EpisodeDomainRepository {
-  async getEpisodeTest(): Promise<EpisodeDetailModelDomain[]> {
-    const response = await fetch('https://rickandmortyapi.com/api/episode');
-    const dataResponseRaw: EpisodeModelDataResponse = await response.json();
-    const dataResponse = EpisodeTransformUtils.transformEpisodeDetailList(
-      dataResponseRaw.results,
-    );
-    return dataResponse;
+  async getEpisode(page: number): Promise<EpisodeDetailModelDomain[]> {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/episode?page=${page}`,
+      );
+      const dataResponseRaw: EpisodeModelDataResponse = response.data;
+      return EpisodeTransformUtils.transformEpisodeDetailList(
+        dataResponseRaw.results,
+      );
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data.error === 'There is nothing here'
+      ) {
+        return [];
+      }
+      console.error('Error fetching episodes:', error);
+      throw error;
+    }
   }
-
-  // async getUser(id: number): Promise<User> {
-  //   // Implementasi fetching data dari API atau sumber data lainnya
-  //   const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-  //   const user = await response.json();
-  //   return {
-  //     id: user.id,
-  //     name: user.name,
-  //     email: user.email,
-  //   };
-  // }
 }

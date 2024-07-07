@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {episodeDomainUseCase} from './../../di/depedencies.ts';
 import {EpisodeDetailModelDomain} from '../../domain/episode/model/EpisodeModelDomain.ts';
 
@@ -14,10 +14,10 @@ const initialState: EpisodeState = {
   error: null,
 };
 
-export const getEpisodeTest = createAsyncThunk(
+export const getEpisode = createAsyncThunk(
   'episode/getEpisodeTest',
-  async () => {
-    return await episodeDomainUseCase.getEpisodeTest();
+  async (page: number) => {
+    return await episodeDomainUseCase.getEpisode(page);
   },
 );
 
@@ -26,15 +26,15 @@ const episodeSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getEpisodeTest.pending, state => {
+    builder.addCase(getEpisode.pending, state => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(getEpisodeTest.fulfilled, (state, action) => {
+    builder.addCase(getEpisode.fulfilled, (state, action) => {
       state.loading = false;
       state.data = action.payload;
     });
-    builder.addCase(getEpisodeTest.rejected, (state, action) => {
+    builder.addCase(getEpisode.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Failed to fetch user';
     });
