@@ -3,15 +3,19 @@ import {episodeDomainUseCase} from './../../di/depedencies.ts';
 import {EpisodeDetailModelDomain} from '../../domain/episode/model/EpisodeModelDomain.ts';
 
 interface EpisodeState {
-  data: EpisodeDetailModelDomain[] | null;
+  data: EpisodeDetailModelDomain[];
   loading: boolean;
-  error: string | null;
+  error: string | null | undefined;
+  page: number;
+  status: string;
 }
 
 const initialState: EpisodeState = {
-  data: null,
+  data: [],
   loading: false,
   error: null,
+  page: 1,
+  status: 'idle',
 };
 
 export const getEpisode = createAsyncThunk(
@@ -26,18 +30,19 @@ const episodeSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getEpisode.pending, state => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(getEpisode.fulfilled, (state, action) => {
-      state.loading = false;
-      state.data = action.payload;
-    });
-    builder.addCase(getEpisode.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || 'Failed to fetch user';
-    });
+    builder
+      .addCase(getEpisode.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(getEpisode.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = [...state.data, ...action.payload];
+        state.page += 1;
+      })
+      .addCase(getEpisode.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
 

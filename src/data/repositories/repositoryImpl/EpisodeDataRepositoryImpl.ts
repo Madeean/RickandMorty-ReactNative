@@ -17,11 +17,13 @@ export class EpisodeDataRepositoryImpl implements EpisodeDomainRepository {
         dataResponseRaw.results,
       );
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data.error === 'There is nothing here'
-      ) {
-        return [];
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data.error === 'There is nothing here'
+        ) {
+          return [];
+        }
       }
       console.error('Error fetching episodes:', error);
       throw error;
