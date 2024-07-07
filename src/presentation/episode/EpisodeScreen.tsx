@@ -1,13 +1,13 @@
-import {ActivityIndicator, FlatList, SafeAreaView, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Header from '../components/header/header.tsx';
-import Search from '../components/search/Search.tsx';
-import EpisodeItemView from '../components/itemview/episode/EpisodeItemView.tsx';
+import {ActivityIndicator, FlatList, SafeAreaView} from 'react-native';
+import Header from './../components/header/header.tsx';
+import Search from './../components/search/Search.tsx';
+import EpisodeItemView from './../components/itemview/episode/EpisodeItemView';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/Store.ts';
-import {getEpisode} from '../../redux/slices/EpisodeSlice.ts';
-import {style} from './EpisodeScreen.style.ts';
-import {useAppDispatch} from '../../redux/hooks.ts';
+import {RootState} from './../../redux/Store';
+import {getEpisode} from './../../redux/slices/EpisodeSlice';
+import {style} from './EpisodeScreen.style';
+import {useAppDispatch} from './../../redux/hooks';
 
 function EpisodeScreen() {
   const [searchText, setSearchText] = useState('');
@@ -16,17 +16,23 @@ function EpisodeScreen() {
   const data = useSelector((state: RootState) => state.episode.data);
   const status = useSelector((state: RootState) => state.episode.status);
   const page = useSelector((state: RootState) => state.episode.page);
+  const hasMore = useSelector((state: RootState) => state.episode.hasMore);
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(getEpisode(page));
+      dispatch(getEpisode({page, episode: searchText}));
     }
   }, [dispatch, status]);
 
   const handleLoadMore = () => {
-    if (status === 'succeeded') {
-      dispatch(getEpisode(page));
+    if (status === 'succeeded' && searchText === '' && hasMore) {
+      dispatch(getEpisode({page, episode: searchText}));
     }
+  };
+
+  const handleSearchEpisode = (text: string) => {
+    dispatch(getEpisode({page: 1, episode: text}));
+    setSearchText(text);
   };
 
   return (
@@ -36,8 +42,7 @@ function EpisodeScreen() {
       <Search
         placeholder={'Search Episode'}
         onTextChange={(text: string) => {
-          console.log(text);
-          setSearchText(text);
+          handleSearchEpisode(text);
         }}
       />
       <FlatList

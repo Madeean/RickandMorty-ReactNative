@@ -1,5 +1,8 @@
 import {EpisodeDetailModelDomain} from './model/EpisodeModelDomain.ts';
 
 export interface EpisodeDomainRepository {
-  getEpisode(page: number): Promise<EpisodeDetailModelDomain[]>;
+  getEpisode(
+    page: number,
+    episode: string,
+  ): Promise<EpisodeDetailModelDomain[]>;
 }

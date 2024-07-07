@@ -9,8 +9,11 @@ export class EpisodeDomainUseCaseImpl implements EpisodeDomainUseCase {
     this.repository = repository;
   }
 
-  getEpisode(page: number): Promise<EpisodeDetailModelDomain[]> {
-    return this.repository.getEpisode(page);
+  getEpisode(
+    page: number,
+    episode: string,
+  ): Promise<EpisodeDetailModelDomain[]> {
+    return this.repository.getEpisode(page, episode);
   }
   // getUser(id: number): Promise<User> {
   //   return this.userRepositoryImpl.getUser(id);

@@ -7,10 +7,13 @@ import {
 import axios from 'axios';
 
 export class EpisodeDataRepositoryImpl implements EpisodeDomainRepository {
-  async getEpisode(page: number): Promise<EpisodeDetailModelDomain[]> {
+  async getEpisode(
+    page: number,
+    episode: string,
+  ): Promise<EpisodeDetailModelDomain[]> {
     try {
       const response = await axios.get(
-        `https://rickandmortyapi.com/api/episode?page=${page}`,
+        `https://rickandmortyapi.com/api/episode?page=${page}&name=${episode}`,
       );
       const dataResponseRaw: EpisodeModelDataResponse = response.data;
       return EpisodeTransformUtils.transformEpisodeDetailList(

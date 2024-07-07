@@ -8,7 +8,14 @@ interface EpisodeState {
   error: string | null | undefined;
   page: number;
   status: string;
+  searchText: string;
+  hasMore: boolean; // Tambahkan flag hasMore
 }
+
+type getEpisodeParameters = {
+  page: number;
+  episode: string;
+};
 
 const initialState: EpisodeState = {
   data: [],
@@ -16,12 +23,15 @@ const initialState: EpisodeState = {
   error: null,
   page: 1,
   status: 'idle',
+  searchText: '',
+  hasMore: true, // Tambahkan hasMore ke initialState
 };
 
 export const getEpisode = createAsyncThunk(
   'episode/getEpisodeTest',
-  async (page: number) => {
-    return await episodeDomainUseCase.getEpisode(page);
+  async ({page, episode}: {page: number; episode: string}) => {
+    console.log(`masuk 1 ${page} ${episode}`);
+    return await episodeDomainUseCase.getEpisode(page, episode);
   },
 );
 
@@ -36,7 +46,19 @@ const episodeSlice = createSlice({
       })
       .addCase(getEpisode.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = [...state.data, ...action.payload];
+        state.searchText = action.meta.arg.episode;
+
+        if (action.payload.length === 0) {
+          state.hasMore = false;
+        }
+
+        if (state.searchText === '') {
+          state.data = [...state.data, ...action.payload];
+        } else {
+          state.data = action.payload;
+          state.page = 1; // Reset page to 1 on search
+        }
+
         state.page += 1;
       })
       .addCase(getEpisode.rejected, (state, action) => {
@@ -45,5 +67,6 @@ const episodeSlice = createSlice({
       });
   },
 });
+
 
 export default episodeSlice.reducer;
