@@ -1,88 +1,3 @@
-// import React from 'react';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// import EpisodeScreen from '../episode/EpisodeScreen.tsx';
-// import CharacterScreen from '../character/CharacterScreen.tsx';
-// import LocationScreen from '../location/LocationScreen.tsx';
-// import useBackHandler from '../../util/BackHandler.ts';
-// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-// import {
-//   faHouse,
-//   faLocationDot,
-//   faPerson,
-// } from '@fortawesome/free-solid-svg-icons';
-//
-// const Tab = createBottomTabNavigator();
-//
-// function HomeScreen() {
-//   useBackHandler();
-//
-//   return (
-//     <Tab.Navigator
-//       initialRouteName="Episode"
-//       screenOptions={{
-//         tabBarActiveTintColor: '#e91e63',
-//         tabBarStyle: {
-//           position: 'absolute',
-//           bottom: 0,
-//           left: 0,
-//           right: 0,
-//           backgroundColor: 'white',
-//           borderTopLeftRadius: 20,
-//           borderTopRightRadius: 20,
-//           shadowColor: '#000',
-//           shadowOffset: {width: 0, height: 10},
-//           shadowOpacity: 0.25,
-//           shadowRadius: 3.5,
-//           elevation: 5,
-//           paddingBottom: -30,
-//           paddingTop: -30,
-//         },
-//       }}>
-//       <Tab.Screen
-//         name="Episode"
-//         component={EpisodeScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarLabel: 'Home',
-//           tabBarIcon: ({color, size}) => (
-//             <FontAwesomeIcon icon={faHouse} color={color} size={size} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Character"
-//         component={CharacterScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarLabel: 'Updates',
-//           tabBarIcon: ({color, size}) => (
-//             <FontAwesomeIcon icon={faPerson} color={color} size={size} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Location"
-//         component={LocationScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarLabel: 'Profile',
-//           tabBarIcon: ({color, size}) => (
-//             <FontAwesomeIcon icon={faLocationDot} color={color} size={size} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
-//
-// // <Tab.Screen name="Episode" component={EpisodeScreen} />
-// // <Tab.Screen name="Character" component={CharacterScreen} />
-// // <Tab.Screen name="Location" component={LocationScreen} />
-//
-// export default HomeScreen;
-
-//
-
 import * as React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {BottomNavigation} from 'react-native-paper';
@@ -103,20 +18,32 @@ const HomeScreen = () => {
     {
       key: 'Episode',
       title: 'Episode',
-      focusedIcon: () => <FontAwesomeIcon icon={faHouse} />,
-      unfocusedIcon: () => <FontAwesomeIcon icon={faHouse} />,
+      focusedIcon: () => (
+        <FontAwesomeIcon icon={faHouse} color={COLORS.abuabumuda} />
+      ),
+      unfocusedIcon: () => (
+        <FontAwesomeIcon icon={faHouse} color={COLORS.hitam} />
+      ),
     },
     {
       key: 'Character',
       title: 'Character',
-      focusedIcon: () => <FontAwesomeIcon icon={faPerson} />,
-      unfocusedIcon: () => <FontAwesomeIcon icon={faPerson} />,
+      focusedIcon: () => (
+        <FontAwesomeIcon icon={faPerson} color={COLORS.abuabumuda} />
+      ),
+      unfocusedIcon: () => (
+        <FontAwesomeIcon icon={faPerson} color={COLORS.hitam} />
+      ),
     },
     {
       key: 'Location',
       title: 'Location',
-      focusedIcon: () => <FontAwesomeIcon icon={faLocationDot} />,
-      unfocusedIcon: () => <FontAwesomeIcon icon={faLocationDot} />,
+      focusedIcon: () => (
+        <FontAwesomeIcon icon={faLocationDot} color={COLORS.abuabumuda} />
+      ),
+      unfocusedIcon: () => (
+        <FontAwesomeIcon icon={faLocationDot} color={COLORS.hitam} />
+      ),
     },
   ]);
 
@@ -129,10 +56,15 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <BottomNavigation
+        activeColor={COLORS.abuabumuda}
+        inactiveColor={COLORS.hitam}
         navigationState={{index, routes}}
         onIndexChange={setIndex}
         renderScene={renderScene}
         barStyle={styles.barStyle}
+        shifting={false}
+        sceneAnimationEnabled={false}
+        theme={{colors: {secondaryContainer: 'transparent'}}}
       />
     </View>
   );
@@ -145,6 +77,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.abuabumuda,
   },
   barStyle: {
+    tintColor: COLORS.abuabumuda,
+    backgroundColor: COLORS.biru,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     overflow: 'hidden',
